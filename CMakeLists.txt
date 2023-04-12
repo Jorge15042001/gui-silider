@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.17)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 project(motorGUI)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 
 # Use the package PkgConfig to detect GTK+ headers/library files
 set(ENV{PKG_CONFIG_PATH} "./libs/libs/lib/pkgconfig")
@@ -23,7 +23,8 @@ pkg_check_modules(gtkmm REQUIRED IMPORTED_TARGET gtkmm-4.0 )
 
 # ADD_DEFINITIONS(${GTKMM4_CFLAGS_OTHER})
 
-add_executable(motorGUI ./src/main.cpp)
+file(GLOB_RECURSE SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "src/*.cpp")
+add_executable(motorGUI ${SOURCES})
 
 # Link the target to the GTK+ libraries
 # TARGET_LINK_LIBRARIES(motorGUI ${GTK4_LIBRARIES})

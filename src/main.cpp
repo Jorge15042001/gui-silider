@@ -1,36 +1,34 @@
 #include <gtkmm.h>
 #include <iostream>
 #include <gtkmm/button.h>
+
+#include "options_menu.h"
+#include "frame_holder.h"
+
+
+
 class MyWindow : public Gtk::Window {
 public:
   MyWindow();
-  protected:
-    Gtk::Button m_button;
-    void on_button_clicked(){
-        std::cout << "The Button was clicked." << std::endl;
-    }
+
+protected:
+  Gtk::Box m_main_box;
+  Menu m_menu;
+  FrameHolder m_frame_holder;
+    
 };
 
-MyWindow::MyWindow() {
-   auto pmap = Gtk::make_managed<Gtk::Image>("info.xpm");
-  auto label = Gtk::make_managed<Gtk::Label>("cool button");
-  label->set_expand(true);
+MyWindow::MyWindow():
+  m_main_box(Gtk::Orientation::HORIZONTAL,5)
+{
+  set_title("Slider Controller");
 
-  //Put them in a Box:
-  auto hbox = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL, 5);
-  hbox->append(*pmap);
-  hbox->append(*label);
+  
 
-  //And put that Box in the button:
-  m_button.set_child(*hbox);
+  m_main_box.append(m_menu);
+  m_main_box.append(m_frame_holder);
 
-  set_title("Pixmap'd buttons!");
-
-  m_button.signal_clicked().connect( sigc::mem_fun(*this,
-              &MyWindow::on_button_clicked) );
-
-  m_button.set_margin(10);
-  set_child(m_button);
+  this->set_child(m_main_box);
   
 }
 
